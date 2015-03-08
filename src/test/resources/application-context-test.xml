@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 	xmlns="http://www.springframework.org/schema/beans" 
+		xmlns:aop="http://www.springframework.org/schema/aop" 
+		xmlns:tx="http://www.springframework.org/schema/tx" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xmlns:context="http://www.springframework.org/schema/context"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans         
+							http://www.springframework.org/schema/beans/spring-beans.xsd         
+							http://www.springframework.org/schema/tx         
+							http://www.springframework.org/schema/tx/spring-tx.xsd         
+							http://www.springframework.org/schema/context
+							http://www.springframework.org/schema/context/spring-context.xsd">
+	<context:component-scan base-package="com.answers.musicstore.test.dao" />
+	<context:annotation-config />  
+	<tx:annotation-driven /> 
+   <bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+      <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+      <property name="url" value="jdbc:mysql://127.0.0.1:3306/test" />
+      <property name="username" value="root" />
+      <property name="password" value="password" />
+   </bean>
+   <bean id="mySessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+      <property name="dataSource" ref="myDataSource" />
+      <property name="mappingLocations">
+         <list>
+            <value>songs.hbm.xml</value>
+            <value>genre.hbm.xml</value>
+         </list>
+      </property>
+      <property name="hibernateProperties">
+         <value>
+				hibernate.dialect=org.hibernate.dialect.MySQLDialect
+		</value>
+      </property>
+   </bean>
+   <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+      <property name="sessionFactory" ref="mySessionFactory" />
+   </bean>
+   
+   <bean id="songsDAO" class="com.answers.musicstore.dao.impl.SongsDAOImpl">
+   		<constructor-arg ref="transactionManager"/>
+   </bean>
+       
+   <bean id="songsService" class="com.answers.musicstore.service.impl.SongsServiceImpl">
+   			<constructor-arg ref="songsDAO"/>
+   </bean>
+   
+   <bean id="genreLookupDAO" class="com.answers.musicstore.dao.impl.GenreDropdownLookupDAO">
+   			<constructor-arg ref="transactionManager"/>
+   </bean>
+   
+    <bean id="genreLookupService" class="com.answers.musicstore.service.impl.GenreDropdownLookupServiceImpl">
+   			<constructor-arg ref="genreLookupDAO"/>
+   </bean>
+</beans>

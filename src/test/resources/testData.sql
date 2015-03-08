@@ -1,0 +1,1 @@
+INSERT INTO songs (id,name,artist,album,stock_quantity,unit_price,song_genre) VALUES ('testData','sampleTestData','testArtistData','SampleAlbumTest',10,'12.3','R');

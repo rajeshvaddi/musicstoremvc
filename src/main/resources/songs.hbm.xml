@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.answers.musicstore.domain.Song" table="SONGS">
+	<id name="id" type="string" column="id">
+		<generator class="uuid">
+		</generator>
+	</id>
+	<property name="songName" column="name" type="string"></property>
+	<property name="artistName" column="artist" type="string"></property>
+	<property name="albumName" column="album" type="string"/>
+	<property name="quantity" column="stock_quantity" type="long"/>
+	<property name="unitPrice" column="unit_price" type="double"/>
+	<property name="genre" column="song_genre" type="string"/>
+	</class>
+</hibernate-mapping>
